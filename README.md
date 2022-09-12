@@ -25,9 +25,6 @@
 
 
 
-And of course Dillinger itself is open source with a [public repository][dill]
- on GitHub.
-
 ## Installation
 
 Make sure that you installed PHP >=8.0 , Mysql , Nginx or Apache 
