@@ -69,7 +69,15 @@ php artisan serve
 ```
 
 this command will host the project localy and it return the link you can use
-
+For login yoou can use demo user account :
+email:
+```php
+admin@ryalize.com
+```
+password:
+```php
+admin@ryalize
+```
 
 ## Attention  
 Dont Forget use auth when using postman
