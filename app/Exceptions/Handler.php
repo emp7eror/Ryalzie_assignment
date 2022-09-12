@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -15,6 +16,21 @@ class Handler extends ExceptionHandler
     protected $levels = [
         //
     ];
+
+
+
+    protected function invalidJson($request, ValidationException $exception)
+{
+    // You can return json response with your custom form
+    return response()->json([
+        'success' => false,
+        'data' => [
+            'code' => $exception->status,
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors()
+        ]
+    ], $exception->status);
+}
 
     /**
      * A list of the exception types that are not reported.

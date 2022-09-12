@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TransactionController extends Controller
 {
@@ -23,29 +24,31 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions'));
     }
 
-    public function getEmployees(Request $request, $clientid)
+    public function getTransactions(Request $request, $clientid)
     {
-        // return ;
 
-        //  return $request->all();
-        ## Read value
+
+
         $draw = $request->get('draw');
         $start = $request->get("start");
-        $rowperpage = $request->get("length"); // Rows display per page
-        $page = (int)$start > 0 ? ($start / $rowperpage) + 1 : 1;
-        $limit = (int)$rowperpage > 0 ? $rowperpage : 10;
+        $rowperpage = $request->get("length");
         $columnIndex_arr = $request->get('order');
         $columnName_arr = $request->get('columns');
         $order_arr = $request->get('order');
         $search_arr = $request->get('search');
+        $searchByFromdate = $request->searchByFromdate;
+        $searchByTodate = $request->searchByTodate;
+        if ($searchByFromdate != null && $searchByTodate != null) {
 
-        $columnIndex = $columnIndex_arr[0]['column']; // Column index
-        $columnName = $columnName_arr[$columnIndex]['data']; // Column name
-        $columnSortOrder = $order_arr[0]['dir']; // asc or desc
-        $searchValue = $search_arr['value']; // Search value
+            $fromDate = Carbon::createFromFormat('Y-m-d', $searchByFromdate);
 
-        // Total records
-        $totalRecords = Transaction::select('count(*) as allcount')->count();
+            $toDate = Carbon::createFromFormat('Y-m-d', $searchByTodate);
+        }
+        $columnIndex = $columnIndex_arr[0]['column'];
+        $columnName = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
         $totalRecords = Transaction::select('count(*) as allcount')->where('client_id', $clientid)->count();
         $totalRecordswithFilter = Transaction::select('count(*) as allcount')->where('client_id', $clientid)->when($columnName != null && $columnSortOrder != null, function ($query) use ($request, $columnName, $columnSortOrder) {
 
@@ -55,11 +58,16 @@ class TransactionController extends Controller
             ->when($searchValue != null, function ($query) use ($request, $searchValue) {
 
                 $query->where('type', 'like', '%' . $searchValue . '%')->orWhere('status', 'like', '%' . $searchValue . '%')->orWhere('amount', 'like', '%' . $searchValue . '%');
+            })->when($searchByFromdate != null && $searchByTodate != null, function ($query) use ($request, $searchByFromdate, $searchByTodate) {
+
+                $query->whereBetween('date', [Carbon::createFromFormat('Y-m-d', $searchByFromdate), Carbon::createFromFormat('Y-m-d', $searchByTodate)]);
             })->count();
 
-        // Fetch records
         $records = Transaction::with('branch')->where('client_id', $clientid)
-            ->when($searchValue != null, function ($query) use ($request, $searchValue) {
+            ->when($searchByFromdate != null && $searchByTodate != null, function ($query) use ($request, $searchByFromdate, $searchByTodate) {
+
+                $query->whereBetween('date', [Carbon::createFromFormat('Y-m-d', $searchByFromdate), Carbon::createFromFormat('Y-m-d', $searchByTodate)]);
+            })->when($searchValue != null, function ($query) use ($request, $searchValue) {
 
                 $query->where('type', 'like', '%' . $searchValue . '%')->orWhere('status', 'like', '%' . $searchValue . '%')->orWhere('amount', 'like', '%' . $searchValue . '%');
             })->skip($start)->orderBy($columnName, $columnSortOrder)
@@ -67,11 +75,7 @@ class TransactionController extends Controller
 
             ->get();
 
-        // ->skip($start)
 
-
-        // ->get();
-        // $totalRecordswithFilter = 50;
         $data_arr = array();
 
         foreach ($records as $record) {

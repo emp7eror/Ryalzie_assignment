@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::resource('/clients',ClientController::class);
-    Route::get('/clients/{clientid}/getTransactions', [TransactionController::class, 'getEmployees'])->name('getTransactions');
+    Route::get('/clients/{clientid}/getTransactions', [TransactionController::class, 'getTransactions'])->name('getTransactions');
 
 
     // Route::resource('users', UserController::class);

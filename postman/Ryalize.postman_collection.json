@@ -1,0 +1,326 @@
+{
+	"info": {
+		"_postman_id": "00220f5a-5979-4eef-9c19-4c1babd4ed57",
+		"name": "Ryalize",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12775282"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@ryalize.com",
+									"description": "For Login | required | for test \"admin@ryalize.com\"",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin@ryalize",
+									"description": "For Login | required | for test \"admin@ryalize\"",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ryalize.test/api/login",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/user",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "get Clients",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/clients?limit=10&page=1&name=Kessler&id=5",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "For pagination | optional | Default 10"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "For pagination | optional | Default 1"
+								},
+								{
+									"key": "name",
+									"value": "Kessler",
+									"description": "For Search | optional "
+								},
+								{
+									"key": "id",
+									"value": "5",
+									"description": "For Search | optional "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show Single Client Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/clients/5",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"clients",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "get Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/transaction",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "For pagination | optional | Default 10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "For pagination | optional | Default 1",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Kessler",
+									"description": "For Search | optional ",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "5",
+									"description": "For Search | optional ",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/getClientsTransactions?from_date=2022-7-10&to_date=2022-7-25&clientid=5&keyword=Bednarborough",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"getClientsTransactions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "For pagination | optional | Default 10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "For pagination | optional | Default 1",
+									"disabled": true
+								},
+								{
+									"key": "from_date",
+									"value": "2022-7-10",
+									"description": "For Search | optional | date y-m-d"
+								},
+								{
+									"key": "to_date",
+									"value": "2022-7-25",
+									"description": "For Search | optional | date y-m-d"
+								},
+								{
+									"key": "clientid",
+									"value": "5",
+									"description": "For Search | optional | client id"
+								},
+								{
+									"key": "keyword",
+									"value": "Bednarborough",
+									"description": "For Search | optional | include branch name /type / status /amount "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show Single Transaction Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "4|9HcyrQREtlA1vtRhqfC8uaQQ8ZkGEnWvRgenEqlR",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ryalize.test/api/clients/5",
+							"protocol": "http",
+							"host": [
+								"ryalize",
+								"test"
+							],
+							"path": [
+								"api",
+								"clients",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
